@@ -27,13 +27,50 @@ import "./Board.css";
  *
  **/
 
+// function Board({ nrows, ncols, chanceLightStartsOn }) {
+
 function Board({ nrows, ncols, chanceLightStartsOn }) {
   const [board, setBoard] = useState(createBoard());
+     // start with default values
+  nrows = 5;
+  ncols = 5;
+  chanceLightStartsOn = 0.25;
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
   function createBoard() {
     let initialBoard = [];
     // TODO: create array-of-arrays of true/false values
+   
+    for(let i = 0; i< nrows; i++){
+        const row = [];
+        for(let j=0; j< ncols; j++){
+            //const column = [];
+            // push true or false to the row
+            row.push(Math.random() < chanceLightStartsOn);
+        }
+        initialBoard.push(row);
+
+    }
+
+    // html table
+    // <table>
+    //     <tr>
+    //         <td></td>
+    //         <td></td>
+    //         <td></td>
+    //     </tr>
+    //     <tr>
+    //         <td></td>
+    //         <td></td>
+    //         <td></td>
+    //     </tr>
+    //     <tr>
+    //         <td></td>
+    //         <td></td>
+    //         <td></td>
+    //     </tr>
+    // </table>
+
     return initialBoard;
   }
 
