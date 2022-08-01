@@ -76,6 +76,9 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
 
   function hasWon() {
     // TODO: check the board in state to determine whether the player has won.
+    // if all cells are false, win
+    return board.every(row => row.every(cell => !cell));
+
   }
 
   function flipCellsAround(coord) {
@@ -91,20 +94,54 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
       };
 
       // TODO: Make a (deep) copy of the oldBoard
+      const boardCopy = oldBoard.map(row => [...row]);
+
+
 
       // TODO: in the copy, flip this cell and the cells around it
+      flipCell(y, x, boardCopy);
+      flipCell(y, x - 1, boardCopy);
+      flipCell(y, x + 1, boardCopy);
+      flipCell(y - 1, x, boardCopy);
+      flipCell(y + 1, x, boardCopy);
 
       // TODO: return the copy
+      return boardCopy;
     });
   }
 
   // if the game is won, just show a winning msg & render nothing else
 
   // TODO
+  if (hasWon()) {
+    return <div>Congratulations! You won the game!</div>;
+  }
 
   // make table board
 
   // TODO
+  let tblBoard = [];
+
+  for (let y = 0; y < nrows; y++) {
+    let row = [];
+    for (let x = 0; x < ncols; x++) {
+      let coord = `${y}-${x}`;
+      row.push(
+        <Cell
+          key={coord}
+          isLit={board[y][x]} // grab true or false
+          flipCellsAroundMe={() => flipCellsAround(coord)}
+        />
+      );
+    }
+    tblBoard.push(<tr key={y}>{row}</tr>);
+  }
+
+  return (
+    <table className="Board">
+      <tbody>{tblBoard}</tbody>
+    </table>
+  );
 }
 
 export default Board;
